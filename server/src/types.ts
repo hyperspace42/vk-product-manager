@@ -1,9 +1,8 @@
 export interface IProduct {
-  id?: string;
-  date: Date;
+  date: string;
   username: string;
   productName: string;
-  body: string | null;
+  body: string;
   chatUrl: string;
   completed: boolean;
 }

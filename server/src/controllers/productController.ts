@@ -6,7 +6,7 @@ class ProductController {
     res.json([
       {
         id: '0',
-        date: new Date(),
+        date: String(new Date()),
         username: 'hyperspace',
         productName: 'Skin',
         body: 'hello world',
@@ -15,7 +15,7 @@ class ProductController {
       },
       {
         id: '1',
-        date: new Date(),
+        date: String(new Date()),
         username: 'bruh',
         productName: 'Skin 2',
         body: 'hello world',
@@ -30,7 +30,7 @@ class ProductController {
 
     res.json({
       id: productId,
-      date: new Date(),
+      date: String(new Date()),
       username: 'hyperspace',
       productName: 'Skin',
       body: 'hello world',
@@ -42,7 +42,7 @@ class ProductController {
   createProduct(req: Request, res: Response): void {
     res.json({
       id: new Date().getDate(),
-      date: new Date(),
+      date: String(new Date()),
       username: 'hyperspace',
       productName: 'Skin',
       body: 'hello world',
