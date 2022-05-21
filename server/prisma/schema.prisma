@@ -12,7 +12,7 @@ model Product {
   date        DateTime
   username    String
   productName String
-  body        String?
+  body        String
   chatUrl     String
   completed   Boolean
 }
