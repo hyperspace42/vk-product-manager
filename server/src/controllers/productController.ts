@@ -9,7 +9,7 @@ class ProductController {
       const products = await productService.getProducts();
       res.json(products as IProduct[] | null);
     } catch (err) {
-      next(err)
+      next(err);
     }
   }
 
@@ -20,7 +20,7 @@ class ProductController {
       const productRes = await productService.createProduct(product);
       res.json(productRes as Product);
     } catch (err) {
-      next(err)
+      next(err);
     }
   }
 
@@ -31,7 +31,7 @@ class ProductController {
       const productRes = await productService.deleteProduct(productId);
       res.json(productRes as Product);
     } catch (err) {
-      next(err)
+      next(err);
     }
   }
 
@@ -43,7 +43,7 @@ class ProductController {
       const productRes = await productService.updateProductStatus(productId, productStatus);
       res.json(productRes as Product);
     } catch (err) {
-      next(err)
+      next(err);
     }
   }
 }
