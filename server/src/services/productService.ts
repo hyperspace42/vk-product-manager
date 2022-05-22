@@ -9,18 +9,27 @@ class ProductService {
     return products;
   }
 
-  async getProduct(productId: string): Promise<Product | null> {
-    const product = await prisma.product.findFirst({
+  async createProduct(product: IProduct): Promise<Product> {
+    const productRes = await prisma.product.create({ data: product });
+
+    return productRes;
+  }
+
+  async deleteProduct(productId: number): Promise<Product> {
+    const productRes = await prisma.product.delete({ where: { id: productId } });
+
+    return productRes;
+  }
+
+  async updateProductStatus(productId: number, status: boolean): Promise<Product> {
+    const productRes = await prisma.product.update({
       where: {
         id: productId,
       },
+      data: {
+        completed: status,
+      },
     });
-
-    return product;
-  }
-
-  async createProduct(product: IProduct): Promise<Product> {
-    const productRes = await prisma.product.create({ data: product });
 
     return productRes;
   }
