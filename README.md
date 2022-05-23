@@ -17,5 +17,11 @@ PORT - bot server port
 
 TOKEN - vk bot token
 
-API_URL - server api url (http://localhost:500/api for example)
+API_URL - server api url (http://localhost:5000/api for example)
+```
+
+## /client .env params
+
+```
+VUE_APP_API_URL - server api url (http://localhost:5000/api for example)
 ```
