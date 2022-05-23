@@ -4,7 +4,7 @@ class ApiError extends Error {
     super(message);
   }
 
-  static BadReques(message: string, errors: any[] = []) {
+  static BadRequest(message: string, errors: any[] = []) {
     return new ApiError(400, message, errors)
   }
 }
