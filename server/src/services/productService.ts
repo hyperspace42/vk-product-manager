@@ -10,8 +10,6 @@ class ProductService {
   }
 
   async createProduct(product: IProduct): Promise<Product> {
-    console.log(product);
-    
     const productRes: Product = await prisma.product.create({ data: product as any });
 
     return productRes;
