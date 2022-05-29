@@ -1,4 +1,9 @@
 <template>
+  <ModalWindow :opened="modalWindowOpened" @close="closeModalWindow" @accept="acceptDeleteProduct" @reject="closeModalWindow">
+    <template #body>
+      <span class="text-2xl text-zinc-200">Are you sure you want to delete the product?</span>
+    </template>
+  </ModalWindow>
   <div class="container mx-auto my-4 flex flex-row items-center justify-between">
     <SelectSort />
     <button
@@ -35,6 +40,7 @@
         :body="product.body"
         :chatUrl="product.chatUrl"
         :completed="product.completed"
+        @deleteProduct="openDeleteProductModalWindow"
       />
     </div>
     <div v-else>
@@ -47,10 +53,14 @@
 import { defineComponent, onBeforeMount, computed, Ref } from 'vue';
 import { useProductStore } from '@store/productStore';
 import { storeToRefs } from 'pinia';
+import { IProduct } from '@/types/product';
+
+import useModalWindow from '@composables/useModalWIndow';
+
 import Product from '@components/Product.vue';
 import ProductsHeader from '@components/ProductsHeader.vue';
 import SelectSort from '@components/SelectSort.vue';
-import { IProduct } from '@/types/product';
+import ModalWindow from '@components/ModalWindow.vue';
 
 export default defineComponent({
   name: 'App',
@@ -58,10 +68,14 @@ export default defineComponent({
     Product,
     ProductsHeader,
     SelectSort,
+    ModalWindow,
   },
+
   setup() {
     const productStore = useProductStore();
-    const { sortType, products } = storeToRefs(productStore);
+    const { sortType, products, productIdToDelete } = storeToRefs(productStore);
+
+    //#region sorts
 
     const sortedByStatusProducts: Ref<IProduct[]> = computed((): IProduct[] => {
       if (sortType.value === 'waiting') {
@@ -75,8 +89,22 @@ export default defineComponent({
     });
 
     const sortedByDateProducts: Ref<IProduct[]> = computed((): IProduct[] => {
-      return sortedByStatusProducts.value.sort((a, b) => +new Date(b.date) - +new Date(a.date))
-    })
+      return sortedByStatusProducts.value.sort((a, b) => +new Date(b.date) - +new Date(a.date));
+    });
+
+    //#endregion
+
+    const { modalWindowOpened, openModalWindow, closeModalWindow } = useModalWindow();
+
+    const openDeleteProductModalWindow = function (productId: number): void {
+      productStore.setProductIdToDelete(productId);
+      openModalWindow();
+    };
+
+    const acceptDeleteProduct = function (): void {
+      productStore.deleteProduct();
+      closeModalWindow();
+    };
 
     onBeforeMount(async (): Promise<void> => {
       productStore.getAllProdcuts();
@@ -86,7 +114,14 @@ export default defineComponent({
       productStore.getAllProdcuts();
     };
 
-    return { sortedByDateProducts, updateProductsList };
+    return {
+      sortedByDateProducts,
+      updateProductsList,
+      modalWindowOpened,
+      openDeleteProductModalWindow,
+      closeModalWindow,
+      acceptDeleteProduct,
+    };
   },
 });
 </script>

@@ -67,6 +67,8 @@ const props = defineProps<{
   completed: boolean;
 }>();
 
+const emit = defineEmits(['deleteProduct'])
+
 const statusDotClass: Ref<string> = computed((): string => {
   return props.completed ? 'bg-emerald-500' : 'bg-orange-500 product_waiting_dot';
 });
@@ -88,7 +90,7 @@ const openChatLink = function(): void {
 }
 
 const deleteProduct = function(): void {
-  productStore.deleteProduct(props.id)
+  emit('deleteProduct', props.id)
 }
 
 </script>

@@ -8,14 +8,21 @@ enum SortType {
   compeleted = 'completed',
 }
 
-type TState = { sortType: SortType; products: IProduct[] };
+type TState = { sortType: SortType; products: IProduct[]; productIdToDelete: number | null };
 
 export const useProductStore = defineStore('productStore', {
   state: () => {
     return {
       sortType: SortType.all,
       products: [],
+      productIdToDelete: null,
     } as TState;
+  },
+
+  getters: {
+    getProductIdToDelete(state: TState): number | null {
+      return state.productIdToDelete;
+    },
   },
 
   actions: {
@@ -27,18 +34,23 @@ export const useProductStore = defineStore('productStore', {
     },
 
     async setProductStatusTrue(productId: number): Promise<void> {
-      const product: IProduct = await productService.updateProductStatus(productId, true);
+      await productService.updateProductStatus(productId, true);
       this.getAllProdcuts();
     },
 
     async setProductStatusFalse(productId: number): Promise<void> {
-      const product: IProduct = await productService.updateProductStatus(productId, false);
+      await productService.updateProductStatus(productId, false);
       this.getAllProdcuts();
     },
 
-    async deleteProduct(productId: number): Promise<void> {
-      const product: IProduct = await productService.deleteProduct(productId);
+    async deleteProduct(): Promise<void> {
+      await productService.deleteProduct(this.productIdToDelete as number);
+      this.setProductIdToDelete(null);
       this.getAllProdcuts();
+    },
+
+    setProductIdToDelete(value: number | null): void {
+      this.productIdToDelete = value;
     },
 
     //#endregion
