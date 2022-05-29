@@ -17,6 +17,7 @@
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@services/*": ["src/services/*"],
+      "@composables/*": ["src/composables/*"],
       "@store/*": ["src/store/*"],
       "$api": ["src/api/index"],
     },

@@ -14,6 +14,7 @@ module.exports = defineConfig({
       alias: {
         '@': resolve(__dirname, './src/'),
         '@components': resolve(__dirname, './src/components/'),
+        '@composables': resolve(__dirname, './src/composables/'),
         '@services': resolve(__dirname, './src/services/'),
         '@store': resolve(__dirname, './src/store/'),
         '$api': resolve(__dirname, './src/api/index'),
