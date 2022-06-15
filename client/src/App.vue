@@ -1,12 +1,23 @@
 <template>
-  <ModalWindow :opened="modalWindowOpened" @close="closeModalWindow" @accept="acceptDeleteProduct" @reject="closeModalWindow">
+  <ModalWindow
+    :opened="modalWindowOpened"
+    @close="closeModalWindow"
+    @accept="acceptDeleteProduct"
+    @reject="closeModalWindow"
+  >
     <template #body>
       <span class="text-2xl text-zinc-200">Are you sure you want to delete the product?</span>
     </template>
   </ModalWindow>
   <div class="container mx-auto my-4 flex flex-row items-center justify-between">
     <SelectSort />
-    <button
+    <div class="flex flex-row items-center space-x-4">
+      <div class="text-xl text-zinc-300 flex flex-row items-center">
+        <span class="mr-1">Total amount:</span>
+        {{ sortedProductsSum }}
+        <span class="text-green-500">₽</span>
+      </div>
+      <button
       @click="updateProductsList"
       class="text-blue-500 bg-blue-900 hover:text-blue-900 hover:bg-blue-500 p-2 rounded-lg transition group"
     >
@@ -25,6 +36,7 @@
         />
       </svg>
     </button>
+    </div>
   </div>
   <div class="container mx-auto mt-4">
     <ProductsHeader class="mb-8" />
@@ -88,6 +100,12 @@ export default defineComponent({
       return products.value;
     });
 
+    const sortedProductsSum = computed(() => {
+      return sortedByStatusProducts.value.reduce((acc, product) => {
+        return acc + product.priceAmount
+      }, 0);
+    });
+
     const sortedByDateProducts: Ref<IProduct[]> = computed((): IProduct[] => {
       return sortedByStatusProducts.value.sort((a, b) => +new Date(b.date) - +new Date(a.date));
     });
@@ -121,6 +139,7 @@ export default defineComponent({
       openDeleteProductModalWindow,
       closeModalWindow,
       acceptDeleteProduct,
+      sortedProductsSum
     };
   },
 });
